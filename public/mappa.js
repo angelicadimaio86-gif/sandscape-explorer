@@ -257,7 +257,9 @@
         startPoint = getPoint(ev);
         startCenter = map.getCenter();
         mapContainer.classList.add('is-map-dragging');
-        if (ev.cancelable) ev.preventDefault();
+        /* Don't preventDefault on touchstart — it would cancel the tap/click on country paths.
+           Only mousedown can be safely prevented to avoid text selection. */
+        if (ev.type === 'mousedown' && ev.cancelable) ev.preventDefault();
       }
 
       function movePan(ev) {
