@@ -253,15 +253,14 @@ function initMobileMenuDetail() {
       '<div class="empty-state"><div class="empty-state-icon">⚠️</div><h3>Errore</h3><p>' + message + '</p></div>';
   }
 
-  function metaItem(label, value, palette) {
+  function metaItem(label, value, palette, modifier) {
     if (value === undefined || value === null || value === '') return '';
     var p = palette || FIELD_PALETTE.fallback;
-    var style = 'background:' + p.bg + ';border:1.5px solid ' + p.border + ';color:' + p.text + ';';
-    var labelStyle = 'color:' + p.text + ';opacity:0.78;';
-    var valueStyle = 'color:' + p.text + ';';
-    return '<div class="metadata-item metadata-item--colored" style="' + style + '">' +
-      '<div class="metadata-label" style="' + labelStyle + '">' + label + '</div>' +
-      '<div class="metadata-value" style="' + valueStyle + '">' + value + '</div>' +
+    var style = 'background:' + p.bg + ';border-color:' + p.border + ';color:' + p.text + ';';
+    var mod = modifier ? ' metadata-item--' + modifier : '';
+    return '<div class="metadata-item metadata-item--colored' + mod + '" style="' + style + '">' +
+      '<div class="metadata-label">' + label + '</div>' +
+      '<div class="metadata-value">' + value + '</div>' +
     '</div>';
   }
 
@@ -299,7 +298,7 @@ function initMobileMenuDetail() {
       return imageBlock(img.src, img.label + ': ' + c.nome, img.label);
     }).join('');
 
-    var tipologiaHtml = metaItem('Tipologia', c.tipologia, tipoPal);
+    var tipologiaHtml = metaItem('Tipologia', c.tipologia, tipoPal, 'tipologia');
 
     detailPage.innerHTML =
       '<div class="detail-back"><a href="index.html" class="btn btn-back">← Torna alla collezione</a></div>' +
@@ -311,17 +310,17 @@ function initMobileMenuDetail() {
         '<div class="detail-info">' +
           '<div class="detail-description"><h2>Descrizione</h2><p>' + c.descrizione + '</p></div>' +
           '<div class="detail-metadata"><h2>Scheda tecnica</h2><div class="metadata-grid">' +
-            metaItem('Campione N°', c.id, FIELD_PALETTE.campione) +
-            metaItem('Nome', c.nome, FIELD_PALETTE.nome) +
-            metaItem('Provenienza', c.provenienza, FIELD_PALETTE.provenienza) +
+            metaItem('Campione N°', c.id, FIELD_PALETTE.campione, 'campione') +
+            metaItem('Nome', c.nome, FIELD_PALETTE.nome, 'nome') +
+            metaItem('Provenienza', c.provenienza, FIELD_PALETTE.provenienza, 'provenienza') +
             metaItem('Provincia', c.provincia, FIELD_PALETTE.provincia) +
             metaItem('Isola', c.isola, FIELD_PALETTE.isola) +
             metaItem('Regione', c.regione, FIELD_PALETTE.regione) +
-            metaItem('Bacino / Mare', c.bacino, FIELD_PALETTE.bacino) +
-            metaItem('Paese', c.paese, paesePal) +
-            metaItem('Continente', c.continente, contPal) +
+            metaItem('Bacino / Mare', c.bacino, FIELD_PALETTE.bacino, 'bacino') +
+            metaItem('Paese', c.paese, paesePal, 'paese') +
+            metaItem('Continente', c.continente, contPal, 'continente') +
             tipologiaHtml +
-            metaItem('Anno di raccolta', c.anno, FIELD_PALETTE.anno) +
+            metaItem('Anno di raccolta', c.anno, FIELD_PALETTE.anno, 'anno') +
           '</div></div>' +
           '<div class="detail-qr"><h2>QR Code</h2><div class="qr-container" id="qr-code"></div><p class="qr-note">Scansiona per accedere a questa scheda dal tuo dispositivo</p></div>' +
         '</div>' +
