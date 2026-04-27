@@ -22,19 +22,19 @@ var COUNTRY_FLAGS = {
 };
 
 const SAND_COLOR_MAP = {
-  cava: "#2E8B57",
-  desertica: "#EDC9AF",
-  eolicadesertica: "#F4A460",
-  fluviale: "#708090",
-  lacustre: "#ADD8E6",
-  lagunare: "#20B2AA",
-  marina: "#0077BE",
-  marinafluviale: "#5F9EA0",
-  marinavulcanica: "#483D8B",
-  montagna: "#8B4513",
-  nonspecificata: "#D3D3D3",
-  torrentizia: "#4682B4",
-  vulcanica: "#333333",
+  cava: "#7A8C5E",
+  desertica: "#E2BF8A",
+  eolicadesertica: "#D89B5C",
+  fluviale: "#9A8E7A",
+  lacustre: "#B8C9CC",
+  lagunare: "#7FA8A2",
+  marina: "#5C8A95",
+  marinafluviale: "#7C9BA0",
+  marinavulcanica: "#6B5E78",
+  montagna: "#8C6A4A",
+  nonspecificata: "#CFC2AE",
+  torrentizia: "#7A8FA0",
+  vulcanica: "#4A3E36",
 };
 
 function normalizeSandType(name) {
