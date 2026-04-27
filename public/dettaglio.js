@@ -394,8 +394,8 @@ function initMobileMenuDetail() {
             metaItem('Provincia', c.provincia, FIELD_PALETTE.provincia) +
             metaItem('Isola', c.isola, FIELD_PALETTE.isola) +
             metaItem('Regione', c.regione, FIELD_PALETTE.regione) +
-            metaItem('Bacino / Mare', c.bacino, FIELD_PALETTE.bacino, 'bacino') +
-            metaItem('Paese', c.paese, paesePal, 'paese') +
+            metaItem('Bacino / Mare', c.bacino, FIELD_PALETTE.bacino, 'bacino', basePath + 'images/bg-sea.jpg') +
+            metaItem('Paese', c.paese, paesePal, 'paese', getPaeseFlagUrl(c.paese)) +
             metaItem('Continente', c.continente, contPal, 'continente') +
             tipologiaHtml +
             metaItem('Anno di raccolta', c.anno, FIELD_PALETTE.anno, 'anno') +
