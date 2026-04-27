@@ -98,6 +98,74 @@ const PAESE_PALETTE = {
 
 const PAESE_FALLBACK = { bg: "#ECE4D8", border: "#B8A189", text: "#4A3A2B", label: "#806E5D" };
 
+/* Codici ISO 3166-1 alpha-2 per ottenere bandiere via flagcdn.com */
+const PAESE_ISO = {
+  "italia": "it", "italy": "it",
+  "francia": "fr", "france": "fr",
+  "germania": "de",
+  "spagna": "es",
+  "portogallo": "pt",
+  "regno unito": "gb", "uk": "gb",
+  "stati uniti": "us", "usa": "us",
+  "canada": "ca",
+  "messico": "mx",
+  "brasile": "br",
+  "argentina": "ar",
+  "cile": "cl",
+  "perù": "pe", "peru": "pe",
+  "marocco": "ma",
+  "egitto": "eg",
+  "sud africa": "za", "sudafrica": "za",
+  "tunisia": "tn",
+  "kenya": "ke",
+  "namibia": "na",
+  "giappone": "jp", "japan": "jp",
+  "cina": "cn",
+  "india": "in",
+  "thailandia": "th",
+  "indonesia": "id",
+  "australia": "au",
+  "nuova zelanda": "nz",
+  "bahamas": "bs",
+  "cuba": "cu",
+  "grecia": "gr",
+  "turchia": "tr",
+  "russia": "ru",
+  "norvegia": "no",
+  "svezia": "se",
+  "danimarca": "dk",
+  "finlandia": "fi",
+  "islanda": "is",
+  "irlanda": "ie",
+  "olanda": "nl", "paesi bassi": "nl",
+  "belgio": "be",
+  "svizzera": "ch",
+  "austria": "at",
+  "polonia": "pl",
+  "croazia": "hr",
+  "albania": "al",
+  "malta": "mt",
+  "cipro": "cy",
+  "israele": "il",
+  "emirati arabi uniti": "ae",
+  "arabia saudita": "sa",
+  "vietnam": "vn",
+  "filippine": "ph",
+  "malesia": "my",
+  "singapore": "sg",
+  "corea del sud": "kr",
+  "nuova caledonia": "nc",
+  "polinesia francese": "pf",
+  "fiji": "fj",
+};
+
+function getPaeseFlagUrl(name) {
+  var k = normalizeKey(name);
+  var iso = PAESE_ISO[k];
+  if (!iso) return null;
+  return "https://flagcdn.com/w1280/" + iso + ".jpg";
+}
+
 /* Palette fisse per campi non categorici — toni archivistici raffinati */
 const FIELD_PALETTE = {
   campione:    { bg: "#EEE2C8", border: "#C8A870", text: "#4F3A1F", label: "#8C7350" },
