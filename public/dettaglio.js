@@ -321,15 +321,24 @@ function initMobileMenuDetail() {
       '<div class="empty-state"><div class="empty-state-icon">⚠️</div><h3>Errore</h3><p>' + message + '</p></div>';
   }
 
-  function metaItem(label, value, palette, modifier) {
+  function metaItem(label, value, palette, modifier, bgImage) {
     if (value === undefined || value === null || value === '') return '';
     var p = palette || FIELD_PALETTE.fallback;
     var labelColor = p.label || p.text;
-    var style = 'background:' + p.bg + ';border-color:' + p.border + ';color:' + p.text + ';';
+    var style = 'background-color:' + p.bg + ';border-color:' + p.border + ';color:' + p.text + ';';
     var mod = modifier ? ' metadata-item--' + modifier : '';
-    return '<div class="metadata-item metadata-item--colored' + mod + '" style="' + style + '">' +
-      '<div class="metadata-label" style="color:' + labelColor + ';">' + label + '</div>' +
-      '<div class="metadata-value">' + value + '</div>' +
+    var hasBg = !!bgImage;
+    var bgLayer = hasBg
+      ? '<div class="metadata-item__bg" style="background-image:url(\'' + bgImage + '\');"></div>' +
+        '<div class="metadata-item__overlay"></div>'
+      : '';
+    var withBg = hasBg ? ' metadata-item--has-bg' : '';
+    return '<div class="metadata-item metadata-item--colored' + mod + withBg + '" style="' + style + '">' +
+      bgLayer +
+      '<div class="metadata-item__content">' +
+        '<div class="metadata-label" style="color:' + labelColor + ';">' + label + '</div>' +
+        '<div class="metadata-value">' + value + '</div>' +
+      '</div>' +
     '</div>';
   }
 
