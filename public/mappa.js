@@ -104,14 +104,14 @@
 
   if (!mapContainer) return;
 
-  /* Theme colors */
-  var COLOR_EMPTY = '#E8E0D5';
-  var COLOR_HAS_1 = '#C9A87C';
-  var COLOR_HAS_10 = '#A6854E';
-  var COLOR_HAS_50 = '#7A6651';
-  var COLOR_HAS_100 = '#5C4D3C';
-  var COLOR_HOVER = '#B85C38';
-  var COLOR_BORDER = '#5C4A2A';
+  /* Theme colors — desert / archive / terracotta */
+  var COLOR_EMPTY = '#EAD8BF';
+  var COLOR_HAS_1 = '#D8B57A';
+  var COLOR_HAS_10 = '#C79245';
+  var COLOR_HAS_50 = '#A87A37';
+  var COLOR_HAS_100 = '#6B3F21';
+  var COLOR_HOVER = '#C86D42';
+  var COLOR_BORDER = '#6B3F21';
 
   function getCountryColor(count) {
     if (!count || count === 0) return COLOR_EMPTY;
