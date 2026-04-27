@@ -7,3 +7,4 @@
 import { defineConfig } from "@lovable.dev/vite-tanstack-config";
 
 export default defineConfig();
+// trigger restart 1777312837
