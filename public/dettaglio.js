@@ -24,36 +24,36 @@ const SAND_COLOR_MAP_D = {
    Ogni voce: { bg, border, text }
    ============================================ */
 
-/* Tipologie */
+/* Tipologie — palette desaturata, museale */
 const TIPOLOGIA_PALETTE = {
-  desertica:        { bg: "#F6D2A5", border: "#E89A4A", text: "#4C2B14" },
-  eolicadesertica:  { bg: "#F6D2A5", border: "#E89A4A", text: "#4C2B14" },
-  marina:           { bg: "#D9ECF7", border: "#4A90B8", text: "#16384D" },
-  marinafluviale:   { bg: "#D6E6E8", border: "#5D95A4", text: "#1E3D47" },
-  marinavulcanica:  { bg: "#D8D2E0", border: "#7A6E97", text: "#2C2540" },
-  fluviale:         { bg: "#DCEBDD", border: "#7BA27D", text: "#2D4B33" },
-  torrentizia:      { bg: "#DCEBDD", border: "#7BA27D", text: "#2D4B33" },
-  lacustre:         { bg: "#DDF2F0", border: "#6EA7A2", text: "#274542" },
-  lagunare:         { bg: "#DDF2F0", border: "#6EA7A2", text: "#274542" },
-  vulcanica:        { bg: "#E8C8BF", border: "#A85C4A", text: "#4C241B" },
-  corallina:        { bg: "#F2D9D5", border: "#C78882", text: "#5C312F" },
-  organogena:       { bg: "#F2D9D5", border: "#C78882", text: "#5C312F" },
-  glaciale:         { bg: "#E3EFF8", border: "#8AB1D6", text: "#2B4661" },
-  montagna:         { bg: "#E3D6C6", border: "#9C7B5A", text: "#4A331E" },
-  cava:             { bg: "#E1E5D6", border: "#8E9C72", text: "#3A4127" },
-  nonspecificata:   { bg: "#F4EDE2", border: "#CBB79E", text: "#4C4035" },
+  desertica:        { bg: "#F2E2CB", border: "#C99A66", text: "#523316" },
+  eolicadesertica:  { bg: "#F2E2CB", border: "#C99A66", text: "#523316" },
+  marina:           { bg: "#E3ECF2", border: "#7A9CB4", text: "#22384A" },
+  marinafluviale:   { bg: "#E0EAEB", border: "#85A2A8", text: "#27403F" },
+  marinavulcanica:  { bg: "#DFDCE5", border: "#8C849F", text: "#312A40" },
+  fluviale:         { bg: "#E2EADF", border: "#8AA68B", text: "#374B36" },
+  torrentizia:      { bg: "#E2EADF", border: "#8AA68B", text: "#374B36" },
+  lacustre:         { bg: "#E1ECEB", border: "#86A8A4", text: "#2E4644" },
+  lagunare:         { bg: "#E1ECEB", border: "#86A8A4", text: "#2E4644" },
+  vulcanica:        { bg: "#E8D2CB", border: "#A8705C", text: "#4F2A1F" },
+  corallina:        { bg: "#EDDAD5", border: "#B58A82", text: "#5A332E" },
+  organogena:       { bg: "#EDDAD5", border: "#B58A82", text: "#5A332E" },
+  glaciale:         { bg: "#E3ECF3", border: "#8FAAC4", text: "#314660" },
+  montagna:         { bg: "#E4D8C7", border: "#A0866A", text: "#4A3722" },
+  cava:             { bg: "#E2E5D6", border: "#94A07A", text: "#3D4429" },
+  nonspecificata:   { bg: "#EEE7DA", border: "#BFAE93", text: "#4D4136" },
 };
 
-/* Continenti */
+/* Continenti — palette desaturata, museale */
 const CONTINENTE_PALETTE = {
-  "nord america":     { bg: "#F4DDD2", border: "#C77956", text: "#5A2D1D" },
-  "centro america":   { bg: "#E4E8C9", border: "#A5A85C", text: "#44491E" },
-  "sud america":      { bg: "#DCE8D8", border: "#7D9B71", text: "#31412D" },
-  "europa":           { bg: "#E2E7EF", border: "#8496B0", text: "#364252" },
-  "africa":           { bg: "#F1E0B8", border: "#C89A3A", text: "#5B4514" },
-  "asia":             { bg: "#EBCFCA", border: "#B86D62", text: "#522723" },
-  "oceania":          { bg: "#DCEEF2", border: "#73AAB4", text: "#28474D" },
-  "non specificato":  { bg: "#EFEAE2", border: "#B8AA99", text: "#51483F" },
+  "nord america":     { bg: "#EFD8CC", border: "#B47558", text: "#583021" },
+  "centro america":   { bg: "#E2E5C8", border: "#9CA068", text: "#454827" },
+  "sud america":      { bg: "#DDE6D6", border: "#88A07A", text: "#354430" },
+  "europa":           { bg: "#E0E5EC", border: "#8A99B0", text: "#384352" },
+  "africa":           { bg: "#EEDFC0", border: "#BC9954", text: "#564019" },
+  "asia":             { bg: "#E6CFCA", border: "#B07368", text: "#4F2924" },
+  "oceania":          { bg: "#DEE9EC", border: "#82A4AE", text: "#2C4549" },
+  "non specificato":  { bg: "#EBE5DB", border: "#B0A493", text: "#4E453B" },
 };
 
 /* Paesi — palette desaturata ispirata alle bandiere */
