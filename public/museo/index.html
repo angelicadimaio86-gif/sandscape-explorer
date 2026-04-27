@@ -147,21 +147,33 @@
         </div>
         <div class="filter-group">
           <label for="filter-continente">Continente</label>
-          <select id="filter-continente">
-            <option value="">Tutti i continenti</option>
-          </select>
+          <div class="multi-select" data-filter="continente">
+            <button type="button" class="multi-select-btn" id="filter-continente-btn" aria-haspopup="listbox" aria-expanded="false">
+              <span class="multi-select-label">Tutti i continenti</span>
+              <svg width="12" height="8" viewBox="0 0 12 8" aria-hidden="true"><path d="M1 1l5 5 5-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+            <div class="multi-select-panel" id="filter-continente-panel" role="listbox" aria-multiselectable="true" hidden></div>
+          </div>
         </div>
         <div class="filter-group">
           <label for="filter-paese">Paese</label>
-          <select id="filter-paese">
-            <option value="">Tutti i paesi</option>
-          </select>
+          <div class="multi-select" data-filter="paese">
+            <button type="button" class="multi-select-btn" id="filter-paese-btn" aria-haspopup="listbox" aria-expanded="false">
+              <span class="multi-select-label">Tutti i paesi</span>
+              <svg width="12" height="8" viewBox="0 0 12 8" aria-hidden="true"><path d="M1 1l5 5 5-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+            <div class="multi-select-panel" id="filter-paese-panel" role="listbox" aria-multiselectable="true" hidden></div>
+          </div>
         </div>
         <div class="filter-group">
           <label for="filter-tipologia">Tipologia</label>
-          <select id="filter-tipologia">
-            <option value="">Tutte le tipologie</option>
-          </select>
+          <div class="multi-select" data-filter="tipologia">
+            <button type="button" class="multi-select-btn" id="filter-tipologia-btn" aria-haspopup="listbox" aria-expanded="false">
+              <span class="multi-select-label">Tutte le tipologie</span>
+              <svg width="12" height="8" viewBox="0 0 12 8" aria-hidden="true"><path d="M1 1l5 5 5-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+            <div class="multi-select-panel" id="filter-tipologia-panel" role="listbox" aria-multiselectable="true" hidden></div>
+          </div>
         </div>
         <div class="filters-actions">
           <button class="btn btn-secondary" id="btn-reset" type="button">✕ Reset</button>

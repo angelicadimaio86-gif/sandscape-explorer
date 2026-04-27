@@ -257,7 +257,9 @@
         startPoint = getPoint(ev);
         startCenter = map.getCenter();
         mapContainer.classList.add('is-map-dragging');
-        if (ev.cancelable) ev.preventDefault();
+        /* Don't preventDefault on touchstart — it would cancel the tap/click on country paths.
+           Only mousedown can be safely prevented to avoid text selection. */
+        if (ev.type === 'mousedown' && ev.cancelable) ev.preventDefault();
       }
 
       function movePan(ev) {
@@ -390,9 +392,13 @@
                   if (mapBackBtn) mapBackBtn.style.display = 'block';
 
                   var filterPaese = document.getElementById('filter-paese');
-                  if (filterPaese) {
-                    filterPaese.value = name;
-                    filterPaese.dispatchEvent(new Event('change'));
+                  if (typeof window.setPaeseFilter === 'function') {
+                    /* Additive when user holds shift/ctrl/meta or on touch with multi-select intent.
+                       For simplicity, default to additive=false on click (replace), but allow
+                       additive when modifier key pressed. */
+                    var oe = e.originalEvent || {};
+                    var additive = !!(oe.shiftKey || oe.ctrlKey || oe.metaKey);
+                    window.setPaeseFilter(name, additive);
                   }
                   var collezione = document.getElementById('collezione');
                   if (collezione) {

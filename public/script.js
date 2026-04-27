@@ -185,13 +185,137 @@ function initMobileMenu() {
 
   const galleryGrid = document.getElementById('gallery-grid');
   const searchInput = document.getElementById('search-input');
-  const filterContinente = document.getElementById('filter-continente');
-  const filterPaese = document.getElementById('filter-paese');
-  const filterTipologia = document.getElementById('filter-tipologia');
   const btnReset = document.getElementById('btn-reset');
   const resultsCount = document.getElementById('results-count');
   const filterBadges = document.getElementById('filter-badges');
   const viewToggle = document.getElementById('view-toggle');
+
+  /* --- Multi-select filter state --- */
+  var selectedContinenti = new Set();
+  var selectedPaesi = new Set();
+  var selectedTipologie = new Set();
+
+  var msContinente = {
+    key: 'continente',
+    set: selectedContinenti,
+    btn: document.getElementById('filter-continente-btn'),
+    panel: document.getElementById('filter-continente-panel'),
+    label: document.querySelector('#filter-continente-btn .multi-select-label'),
+    placeholder: 'Tutti i continenti',
+    singular: 'continente',
+    plural: 'continenti'
+  };
+  var msPaese = {
+    key: 'paese',
+    set: selectedPaesi,
+    btn: document.getElementById('filter-paese-btn'),
+    panel: document.getElementById('filter-paese-panel'),
+    label: document.querySelector('#filter-paese-btn .multi-select-label'),
+    placeholder: 'Tutti i paesi',
+    singular: 'paese',
+    plural: 'paesi'
+  };
+  var msTipologia = {
+    key: 'tipologia',
+    set: selectedTipologie,
+    btn: document.getElementById('filter-tipologia-btn'),
+    panel: document.getElementById('filter-tipologia-panel'),
+    label: document.querySelector('#filter-tipologia-btn .multi-select-label'),
+    placeholder: 'Tutte le tipologie',
+    singular: 'tipologia',
+    plural: 'tipologie'
+  };
+  var allMs = [msContinente, msPaese, msTipologia];
+
+  function updateMsLabel(ms) {
+    if (!ms.label) return;
+    var n = ms.set.size;
+    if (n === 0) ms.label.textContent = ms.placeholder;
+    else if (n === 1) {
+      var only = Array.from(ms.set)[0];
+      ms.label.textContent = (ms.key === 'paese' ? ((COUNTRY_FLAGS[only] || '') + ' ' + only).trim() : only);
+    } else ms.label.textContent = n + ' ' + ms.plural + ' selezionati';
+    if (ms.btn) ms.btn.classList.toggle('has-selection', n > 0);
+  }
+
+  function renderMsOptions(ms, options, opts) {
+    opts = opts || {};
+    if (!ms.panel) return;
+    ms.panel.innerHTML = '';
+    if (!options.length) {
+      var empty = document.createElement('div');
+      empty.className = 'multi-select-empty';
+      empty.textContent = 'Nessuna opzione';
+      ms.panel.appendChild(empty);
+      updateMsLabel(ms);
+      return;
+    }
+    options.forEach(function(value) {
+      var id = 'ms-' + ms.key + '-' + value.replace(/[^a-zA-Z0-9]/g, '_');
+      var row = document.createElement('label');
+      row.className = 'multi-select-option';
+      row.setAttribute('for', id);
+      var checkbox = document.createElement('input');
+      checkbox.type = 'checkbox';
+      checkbox.id = id;
+      checkbox.value = value;
+      checkbox.checked = ms.set.has(value);
+      checkbox.addEventListener('change', function() {
+        if (checkbox.checked) ms.set.add(value);
+        else ms.set.delete(value);
+        updateMsLabel(ms);
+        if (ms.key === 'continente') updatePaesiDropdown();
+        applyFilters();
+      });
+      var text = document.createElement('span');
+      text.className = 'multi-select-option-text';
+      text.textContent = (opts.flag ? (COUNTRY_FLAGS[value] || '') + ' ' : '') + value;
+      row.appendChild(checkbox);
+      row.appendChild(text);
+      ms.panel.appendChild(row);
+    });
+    updateMsLabel(ms);
+  }
+
+  function bindMsToggle(ms) {
+    if (!ms.btn || !ms.panel) return;
+    ms.btn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      var isOpen = !ms.panel.hasAttribute('hidden');
+      // close others
+      allMs.forEach(function(o) {
+        if (o !== ms && o.panel) {
+          o.panel.setAttribute('hidden', '');
+          if (o.btn) o.btn.setAttribute('aria-expanded', 'false');
+        }
+      });
+      if (isOpen) {
+        ms.panel.setAttribute('hidden', '');
+        ms.btn.setAttribute('aria-expanded', 'false');
+      } else {
+        ms.panel.removeAttribute('hidden');
+        ms.btn.setAttribute('aria-expanded', 'true');
+      }
+    });
+  }
+  allMs.forEach(bindMsToggle);
+  document.addEventListener('click', function(e) {
+    allMs.forEach(function(ms) {
+      if (!ms.panel || ms.panel.hasAttribute('hidden')) return;
+      if (ms.panel.contains(e.target) || (ms.btn && ms.btn.contains(e.target))) return;
+      ms.panel.setAttribute('hidden', '');
+      if (ms.btn) ms.btn.setAttribute('aria-expanded', 'false');
+    });
+  });
+
+  /* Public API for map.js to set country filter */
+  window.setPaeseFilter = function(name, additive) {
+    if (!name) return;
+    if (!additive) selectedPaesi.clear();
+    selectedPaesi.add(name);
+    updatePaesiDropdown();
+    applyFilters();
+  };
 
   const basePath = (function() {
     const path = window.location.pathname;
@@ -240,19 +364,8 @@ function initMobileMenu() {
     var continenti = [...new Set(campioni.map(function(c){return c.continente}).filter(Boolean))].sort();
     var tipologie = [...new Set(campioni.map(function(c){return c.tipologia}).filter(Boolean))].sort();
 
-    continenti.forEach(function(c) {
-      var opt = document.createElement('option');
-      opt.value = c;
-      opt.textContent = c;
-      filterContinente.appendChild(opt);
-    });
-
-    tipologie.forEach(function(t) {
-      var opt = document.createElement('option');
-      opt.value = t;
-      opt.textContent = t;
-      filterTipologia.appendChild(opt);
-    });
+    renderMsOptions(msContinente, continenti);
+    renderMsOptions(msTipologia, tipologie);
 
     updatePaesiDropdown();
   }
@@ -345,13 +458,10 @@ function initMobileMenu() {
   };
 
   function updatePaesiDropdown() {
-    var selectedContinente = filterContinente.value;
-    var currentPaese = filterPaese.value;
-
-    /* Show ONLY countries that actually have at least one sample, filtered by continent. */
+    /* Show ONLY countries that actually have at least one sample, filtered by selected continents. */
     var source = campioni;
-    if (selectedContinente) {
-      source = source.filter(function(c) { return c.continente === selectedContinente; });
+    if (selectedContinenti.size > 0) {
+      source = source.filter(function(c) { return selectedContinenti.has(c.continente); });
     }
     var allPaesi = [...new Set(
       source
@@ -359,52 +469,53 @@ function initMobileMenu() {
         .filter(function(p) { return p && p !== 'Non specificato'; })
     )].sort(function(a,b){ return a.localeCompare(b, 'it'); });
 
-    filterPaese.innerHTML = '<option value="">Tutti i paesi</option>';
-    allPaesi.forEach(function(p) {
-      var opt = document.createElement('option');
-      opt.value = p;
-      opt.textContent = (COUNTRY_FLAGS[p] || '') + ' ' + p;
-      if (p === currentPaese) opt.selected = true;
-      filterPaese.appendChild(opt);
+    /* Drop selected paesi that are no longer valid */
+    Array.from(selectedPaesi).forEach(function(p) {
+      if (allPaesi.indexOf(p) === -1) selectedPaesi.delete(p);
     });
-    /* If currentPaese is no longer valid for selected continent, reset it */
-    if (currentPaese && filterPaese.value !== currentPaese) {
-      filterPaese.value = '';
-    }
+    renderMsOptions(msPaese, allPaesi, { flag: true });
   }
 
   /* --- Render Filter Badges --- */
   function renderFilterBadges() {
     if (!filterBadges) return;
     var badges = [];
-    var continente = filterContinente.value;
-    var paese = filterPaese.value;
-    var tipologia = filterTipologia.value;
     var search = searchInput.value.trim();
 
     if (search) {
       badges.push('<span class="filter-badge">🔍 ' + search + ' <button class="filter-badge-x" data-filter="search" aria-label="Rimuovi filtro ricerca">✕</button></span>');
     }
-    if (continente) {
-      badges.push('<span class="filter-badge">🌍 ' + continente + ' <button class="filter-badge-x" data-filter="continente" aria-label="Rimuovi filtro continente">✕</button></span>');
-    }
-    if (paese) {
-      var flag = COUNTRY_FLAGS[paese] || '🏳️';
-      badges.push('<span class="filter-badge">' + flag + ' ' + paese + ' <button class="filter-badge-x" data-filter="paese" aria-label="Rimuovi filtro paese">✕</button></span>');
-    }
-    if (tipologia) {
-      badges.push('<span class="filter-badge">🏖️ ' + tipologia + ' <button class="filter-badge-x" data-filter="tipologia" aria-label="Rimuovi filtro tipologia">✕</button></span>');
-    }
+    selectedContinenti.forEach(function(v) {
+      badges.push('<span class="filter-badge">🌍 ' + v + ' <button class="filter-badge-x" data-filter="continente" data-value="' + v + '" aria-label="Rimuovi continente ' + v + '">✕</button></span>');
+    });
+    selectedPaesi.forEach(function(v) {
+      var flag = COUNTRY_FLAGS[v] || '🏳️';
+      badges.push('<span class="filter-badge">' + flag + ' ' + v + ' <button class="filter-badge-x" data-filter="paese" data-value="' + v + '" aria-label="Rimuovi paese ' + v + '">✕</button></span>');
+    });
+    selectedTipologie.forEach(function(v) {
+      badges.push('<span class="filter-badge">🏖️ ' + v + ' <button class="filter-badge-x" data-filter="tipologia" data-value="' + v + '" aria-label="Rimuovi tipologia ' + v + '">✕</button></span>');
+    });
 
     filterBadges.innerHTML = badges.join('');
 
     filterBadges.querySelectorAll('.filter-badge-x').forEach(function(btn) {
       btn.addEventListener('click', function() {
         var f = btn.dataset.filter;
+        var v = btn.dataset.value;
         if (f === 'search') searchInput.value = '';
-        if (f === 'continente') { filterContinente.value = ''; updatePaesiDropdown(); }
-        if (f === 'paese') filterPaese.value = '';
-        if (f === 'tipologia') filterTipologia.value = '';
+        if (f === 'continente') {
+          selectedContinenti.delete(v);
+          updatePaesiDropdown();
+          renderMsOptions(msContinente, [...new Set(campioni.map(function(c){return c.continente}).filter(Boolean))].sort());
+        }
+        if (f === 'paese') {
+          selectedPaesi.delete(v);
+          updatePaesiDropdown();
+        }
+        if (f === 'tipologia') {
+          selectedTipologie.delete(v);
+          renderMsOptions(msTipologia, [...new Set(campioni.map(function(c){return c.tipologia}).filter(Boolean))].sort());
+        }
         applyFilters();
       });
     });
@@ -413,9 +524,6 @@ function initMobileMenu() {
   /* --- Apply Filters --- */
   function applyFilters() {
     var searchTerm = searchInput.value.toLowerCase().trim();
-    var continente = filterContinente.value;
-    var paese = filterPaese.value;
-    var tipologia = filterTipologia.value;
 
     filteredCampioni = campioni.filter(function(c) {
       if (searchTerm) {
@@ -423,9 +531,9 @@ function initMobileMenu() {
           .filter(Boolean).join(' ').toLowerCase();
         if (!searchable.includes(searchTerm)) return false;
       }
-      if (continente && c.continente !== continente) return false;
-      if (paese && c.paese !== paese) return false;
-      if (tipologia && c.tipologia !== tipologia) return false;
+      if (selectedContinenti.size > 0 && !selectedContinenti.has(c.continente)) return false;
+      if (selectedPaesi.size > 0 && !selectedPaesi.has(c.paese)) return false;
+      if (selectedTipologie.size > 0 && !selectedTipologie.has(c.tipologia)) return false;
       return true;
     });
 
@@ -437,9 +545,13 @@ function initMobileMenu() {
   /* --- Reset Filters --- */
   function resetFilters() {
     searchInput.value = '';
-    filterContinente.value = '';
-    filterPaese.value = '';
-    filterTipologia.value = '';
+    selectedContinenti.clear();
+    selectedPaesi.clear();
+    selectedTipologie.clear();
+    var continenti = [...new Set(campioni.map(function(c){return c.continente}).filter(Boolean))].sort();
+    var tipologie = [...new Set(campioni.map(function(c){return c.tipologia}).filter(Boolean))].sort();
+    renderMsOptions(msContinente, continenti);
+    renderMsOptions(msTipologia, tipologie);
     updatePaesiDropdown();
     filteredCampioni = [...campioni];
     visibleCount = PAGE_SIZE;
@@ -565,12 +677,6 @@ function initMobileMenu() {
 
   /* --- Event Listeners --- */
   searchInput.addEventListener('input', applyFilters);
-  filterContinente.addEventListener('change', function () {
-    updatePaesiDropdown();
-    applyFilters();
-  });
-  filterPaese.addEventListener('change', applyFilters);
-  filterTipologia.addEventListener('change', applyFilters);
   bindPress(btnReset, resetFilters);
 
   /* --- Init --- */
