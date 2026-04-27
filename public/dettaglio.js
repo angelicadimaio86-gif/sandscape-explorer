@@ -253,9 +253,16 @@ function initMobileMenuDetail() {
       '<div class="empty-state"><div class="empty-state-icon">⚠️</div><h3>Errore</h3><p>' + message + '</p></div>';
   }
 
-  function metaItem(label, value) {
-    if (!value) return '';
-    return '<div class="metadata-item"><div class="metadata-label">' + label + '</div><div class="metadata-value">' + value + '</div></div>';
+  function metaItem(label, value, palette) {
+    if (value === undefined || value === null || value === '') return '';
+    var p = palette || FIELD_PALETTE.fallback;
+    var style = 'background:' + p.bg + ';border:1.5px solid ' + p.border + ';color:' + p.text + ';';
+    var labelStyle = 'color:' + p.text + ';opacity:0.78;';
+    var valueStyle = 'color:' + p.text + ';';
+    return '<div class="metadata-item metadata-item--colored" style="' + style + '">' +
+      '<div class="metadata-label" style="' + labelStyle + '">' + label + '</div>' +
+      '<div class="metadata-value" style="' + valueStyle + '">' + value + '</div>' +
+    '</div>';
   }
 
   function imageBlock(src, alt, label) {
@@ -272,6 +279,9 @@ function initMobileMenuDetail() {
 
     var sc = getSandColorD(c.tipologia);
     var tc = getContrastTextColorD(sc);
+    var tipoPal = getTipologiaPalette(c.tipologia);
+    var contPal = getContinentePalette(c.continente);
+    var paesePal = getPaesePalette(c.paese);
 
     var imagesHtml = imageBlock(c.immagine, 'Campione di sabbia: ' + c.nome, '📷 Immagine del campione');
     var microscopeImages = [];
@@ -289,10 +299,7 @@ function initMobileMenuDetail() {
       return imageBlock(img.src, img.label + ': ' + c.nome, img.label);
     }).join('');
 
-    var tipologiaHtml = '<div class="metadata-item"><span class="metadata-label">Tipologia</span>' +
-      '<span class="metadata-value sand-type-item" tabindex="0" role="listitem" data-sand-color="' + sc + '" data-sand-text="' + tc + '" style="background-color:' + sc + ';color:' + tc + ';padding:4px 12px;border-radius:20px;transition:all 0.3s ease;display:inline-flex;align-items:center;gap:6px;">' +
-      '<span class="sand-swatch" style="width:9px;height:9px;border-radius:50%;background-color:' + sc + ';display:inline-block;transition:background-color 0.3s ease;"></span>' +
-      c.tipologia + '</span></div>';
+    var tipologiaHtml = metaItem('Tipologia', c.tipologia, tipoPal);
 
     detailPage.innerHTML =
       '<div class="detail-back"><a href="index.html" class="btn btn-back">← Torna alla collezione</a></div>' +
@@ -304,17 +311,17 @@ function initMobileMenuDetail() {
         '<div class="detail-info">' +
           '<div class="detail-description"><h2>Descrizione</h2><p>' + c.descrizione + '</p></div>' +
           '<div class="detail-metadata"><h2>Scheda tecnica</h2><div class="metadata-grid">' +
-            metaItem('Campione N°', c.id) +
-            metaItem('Nome', c.nome) +
-            metaItem('Provenienza', c.provenienza) +
-            metaItem('Provincia', c.provincia) +
-            metaItem('Isola', c.isola) +
-            metaItem('Regione', c.regione) +
-            metaItem('Bacino / Mare', c.bacino) +
-            metaItem('Paese', c.paese) +
-            metaItem('Continente', c.continente) +
+            metaItem('Campione N°', c.id, FIELD_PALETTE.campione) +
+            metaItem('Nome', c.nome, FIELD_PALETTE.nome) +
+            metaItem('Provenienza', c.provenienza, FIELD_PALETTE.provenienza) +
+            metaItem('Provincia', c.provincia, FIELD_PALETTE.provincia) +
+            metaItem('Isola', c.isola, FIELD_PALETTE.isola) +
+            metaItem('Regione', c.regione, FIELD_PALETTE.regione) +
+            metaItem('Bacino / Mare', c.bacino, FIELD_PALETTE.bacino) +
+            metaItem('Paese', c.paese, paesePal) +
+            metaItem('Continente', c.continente, contPal) +
             tipologiaHtml +
-            metaItem('Anno di raccolta', c.anno) +
+            metaItem('Anno di raccolta', c.anno, FIELD_PALETTE.anno) +
           '</div></div>' +
           '<div class="detail-qr"><h2>QR Code</h2><div class="qr-container" id="qr-code"></div><p class="qr-note">Scansiona per accedere a questa scheda dal tuo dispositivo</p></div>' +
         '</div>' +
