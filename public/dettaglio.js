@@ -24,36 +24,36 @@ const SAND_COLOR_MAP_D = {
    Ogni voce: { bg, border, text }
    ============================================ */
 
-/* Tipologie */
+/* Tipologie — palette desaturata, museale */
 const TIPOLOGIA_PALETTE = {
-  desertica:        { bg: "#F6D2A5", border: "#E89A4A", text: "#4C2B14" },
-  eolicadesertica:  { bg: "#F6D2A5", border: "#E89A4A", text: "#4C2B14" },
-  marina:           { bg: "#D9ECF7", border: "#4A90B8", text: "#16384D" },
-  marinafluviale:   { bg: "#D6E6E8", border: "#5D95A4", text: "#1E3D47" },
-  marinavulcanica:  { bg: "#D8D2E0", border: "#7A6E97", text: "#2C2540" },
-  fluviale:         { bg: "#DCEBDD", border: "#7BA27D", text: "#2D4B33" },
-  torrentizia:      { bg: "#DCEBDD", border: "#7BA27D", text: "#2D4B33" },
-  lacustre:         { bg: "#DDF2F0", border: "#6EA7A2", text: "#274542" },
-  lagunare:         { bg: "#DDF2F0", border: "#6EA7A2", text: "#274542" },
-  vulcanica:        { bg: "#E8C8BF", border: "#A85C4A", text: "#4C241B" },
-  corallina:        { bg: "#F2D9D5", border: "#C78882", text: "#5C312F" },
-  organogena:       { bg: "#F2D9D5", border: "#C78882", text: "#5C312F" },
-  glaciale:         { bg: "#E3EFF8", border: "#8AB1D6", text: "#2B4661" },
-  montagna:         { bg: "#E3D6C6", border: "#9C7B5A", text: "#4A331E" },
-  cava:             { bg: "#E1E5D6", border: "#8E9C72", text: "#3A4127" },
-  nonspecificata:   { bg: "#F4EDE2", border: "#CBB79E", text: "#4C4035" },
+  desertica:        { bg: "#F2E2CB", border: "#C99A66", text: "#523316" },
+  eolicadesertica:  { bg: "#F2E2CB", border: "#C99A66", text: "#523316" },
+  marina:           { bg: "#E3ECF2", border: "#7A9CB4", text: "#22384A" },
+  marinafluviale:   { bg: "#E0EAEB", border: "#85A2A8", text: "#27403F" },
+  marinavulcanica:  { bg: "#DFDCE5", border: "#8C849F", text: "#312A40" },
+  fluviale:         { bg: "#E2EADF", border: "#8AA68B", text: "#374B36" },
+  torrentizia:      { bg: "#E2EADF", border: "#8AA68B", text: "#374B36" },
+  lacustre:         { bg: "#E1ECEB", border: "#86A8A4", text: "#2E4644" },
+  lagunare:         { bg: "#E1ECEB", border: "#86A8A4", text: "#2E4644" },
+  vulcanica:        { bg: "#E8D2CB", border: "#A8705C", text: "#4F2A1F" },
+  corallina:        { bg: "#EDDAD5", border: "#B58A82", text: "#5A332E" },
+  organogena:       { bg: "#EDDAD5", border: "#B58A82", text: "#5A332E" },
+  glaciale:         { bg: "#E3ECF3", border: "#8FAAC4", text: "#314660" },
+  montagna:         { bg: "#E4D8C7", border: "#A0866A", text: "#4A3722" },
+  cava:             { bg: "#E2E5D6", border: "#94A07A", text: "#3D4429" },
+  nonspecificata:   { bg: "#EEE7DA", border: "#BFAE93", text: "#4D4136" },
 };
 
-/* Continenti */
+/* Continenti — palette desaturata, museale */
 const CONTINENTE_PALETTE = {
-  "nord america":     { bg: "#F4DDD2", border: "#C77956", text: "#5A2D1D" },
-  "centro america":   { bg: "#E4E8C9", border: "#A5A85C", text: "#44491E" },
-  "sud america":      { bg: "#DCE8D8", border: "#7D9B71", text: "#31412D" },
-  "europa":           { bg: "#E2E7EF", border: "#8496B0", text: "#364252" },
-  "africa":           { bg: "#F1E0B8", border: "#C89A3A", text: "#5B4514" },
-  "asia":             { bg: "#EBCFCA", border: "#B86D62", text: "#522723" },
-  "oceania":          { bg: "#DCEEF2", border: "#73AAB4", text: "#28474D" },
-  "non specificato":  { bg: "#EFEAE2", border: "#B8AA99", text: "#51483F" },
+  "nord america":     { bg: "#EFD8CC", border: "#B47558", text: "#583021" },
+  "centro america":   { bg: "#E2E5C8", border: "#9CA068", text: "#454827" },
+  "sud america":      { bg: "#DDE6D6", border: "#88A07A", text: "#354430" },
+  "europa":           { bg: "#E0E5EC", border: "#8A99B0", text: "#384352" },
+  "africa":           { bg: "#EEDFC0", border: "#BC9954", text: "#564019" },
+  "asia":             { bg: "#E6CFCA", border: "#B07368", text: "#4F2924" },
+  "oceania":          { bg: "#DEE9EC", border: "#82A4AE", text: "#2C4549" },
+  "non specificato":  { bg: "#EBE5DB", border: "#B0A493", text: "#4E453B" },
 };
 
 /* Paesi — palette desaturata ispirata alle bandiere */
@@ -253,15 +253,14 @@ function initMobileMenuDetail() {
       '<div class="empty-state"><div class="empty-state-icon">⚠️</div><h3>Errore</h3><p>' + message + '</p></div>';
   }
 
-  function metaItem(label, value, palette) {
+  function metaItem(label, value, palette, modifier) {
     if (value === undefined || value === null || value === '') return '';
     var p = palette || FIELD_PALETTE.fallback;
-    var style = 'background:' + p.bg + ';border:1.5px solid ' + p.border + ';color:' + p.text + ';';
-    var labelStyle = 'color:' + p.text + ';opacity:0.78;';
-    var valueStyle = 'color:' + p.text + ';';
-    return '<div class="metadata-item metadata-item--colored" style="' + style + '">' +
-      '<div class="metadata-label" style="' + labelStyle + '">' + label + '</div>' +
-      '<div class="metadata-value" style="' + valueStyle + '">' + value + '</div>' +
+    var style = 'background:' + p.bg + ';border-color:' + p.border + ';color:' + p.text + ';';
+    var mod = modifier ? ' metadata-item--' + modifier : '';
+    return '<div class="metadata-item metadata-item--colored' + mod + '" style="' + style + '">' +
+      '<div class="metadata-label">' + label + '</div>' +
+      '<div class="metadata-value">' + value + '</div>' +
     '</div>';
   }
 
@@ -299,7 +298,7 @@ function initMobileMenuDetail() {
       return imageBlock(img.src, img.label + ': ' + c.nome, img.label);
     }).join('');
 
-    var tipologiaHtml = metaItem('Tipologia', c.tipologia, tipoPal);
+    var tipologiaHtml = metaItem('Tipologia', c.tipologia, tipoPal, 'tipologia');
 
     detailPage.innerHTML =
       '<div class="detail-back"><a href="index.html" class="btn btn-back">← Torna alla collezione</a></div>' +
@@ -311,17 +310,17 @@ function initMobileMenuDetail() {
         '<div class="detail-info">' +
           '<div class="detail-description"><h2>Descrizione</h2><p>' + c.descrizione + '</p></div>' +
           '<div class="detail-metadata"><h2>Scheda tecnica</h2><div class="metadata-grid">' +
-            metaItem('Campione N°', c.id, FIELD_PALETTE.campione) +
-            metaItem('Nome', c.nome, FIELD_PALETTE.nome) +
-            metaItem('Provenienza', c.provenienza, FIELD_PALETTE.provenienza) +
+            metaItem('Campione N°', c.id, FIELD_PALETTE.campione, 'campione') +
+            metaItem('Nome', c.nome, FIELD_PALETTE.nome, 'nome') +
+            metaItem('Provenienza', c.provenienza, FIELD_PALETTE.provenienza, 'provenienza') +
             metaItem('Provincia', c.provincia, FIELD_PALETTE.provincia) +
             metaItem('Isola', c.isola, FIELD_PALETTE.isola) +
             metaItem('Regione', c.regione, FIELD_PALETTE.regione) +
-            metaItem('Bacino / Mare', c.bacino, FIELD_PALETTE.bacino) +
-            metaItem('Paese', c.paese, paesePal) +
-            metaItem('Continente', c.continente, contPal) +
+            metaItem('Bacino / Mare', c.bacino, FIELD_PALETTE.bacino, 'bacino') +
+            metaItem('Paese', c.paese, paesePal, 'paese') +
+            metaItem('Continente', c.continente, contPal, 'continente') +
             tipologiaHtml +
-            metaItem('Anno di raccolta', c.anno, FIELD_PALETTE.anno) +
+            metaItem('Anno di raccolta', c.anno, FIELD_PALETTE.anno, 'anno') +
           '</div></div>' +
           '<div class="detail-qr"><h2>QR Code</h2><div class="qr-container" id="qr-code"></div><p class="qr-note">Scansiona per accedere a questa scheda dal tuo dispositivo</p></div>' +
         '</div>' +
