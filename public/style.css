@@ -745,26 +745,28 @@ h1 em, h2 em, h3 em {
   align-items: center;
   justify-content: center;
   gap: 0.4rem;
-  padding: 0.65rem 1.4rem;
+  padding: 0.7rem 1.6rem;
   border: none;
-  border-radius: var(--radius-sm);
+  border-radius: 999px;
   font-family: 'Inter', sans-serif;
-  font-size: 0.88rem;
-  font-weight: 500;
+  font-size: 0.9rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
   cursor: pointer;
   transition: all var(--duration-fast) var(--ease-out);
   white-space: nowrap;
+  box-shadow: 0 4px 14px rgba(200, 109, 66, 0.18);
 }
 
 .btn-primary {
   background: var(--color-terracotta);
-  color: #fff;
+  color: var(--color-text-inverse);
 }
 
 .btn-primary:hover {
   background: var(--color-terracotta-dark);
   transform: translateY(-1px);
-  box-shadow: var(--shadow-md);
+  box-shadow: 0 8px 22px rgba(182, 93, 52, 0.28);
 }
 
 .btn-secondary {
