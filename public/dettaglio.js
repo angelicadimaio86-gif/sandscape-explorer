@@ -145,11 +145,10 @@ function initMobileMenuDetail() {
     return '<div class="metadata-item"><div class="metadata-label">' + label + '</div><div class="metadata-value">' + value + '</div></div>';
   }
 
-  function imageBlock(src, alt, label, qrId) {
+  function imageBlock(src, alt, label) {
     return '<div class="detail-image-block">' +
       '<img src="' + basePath + src + '" alt="' + alt + '" onerror="this.src=\'' + basePath + 'images/coming-soon.jpg\';">' +
       '<div class="detail-image-label">' + label + '</div>' +
-      '<div class="image-qr"><div class="qr-container image-qr-container" id="' + qrId + '" data-image-src="' + src + '"></div><p class="qr-note">QR Code immagine</p></div>' +
     '</div>';
   }
 
@@ -161,7 +160,7 @@ function initMobileMenuDetail() {
     var sc = getSandColorD(c.tipologia);
     var tc = getContrastTextColorD(sc);
 
-    var imagesHtml = imageBlock(c.immagine, 'Campione di sabbia: ' + c.nome, '📷 Immagine del campione', 'image-qr-main');
+    var imagesHtml = imageBlock(c.immagine, 'Campione di sabbia: ' + c.nome, '📷 Immagine del campione');
     var microscopeImages = [];
     if (c.microscopio && c.microscopio !== 'images/coming-soon.jpg' && c.microscopio !== c.immagine) {
       microscopeImages.push({ src: c.microscopio, label: '🔬 Immagine al microscopio' });
@@ -173,8 +172,8 @@ function initMobileMenuDetail() {
         }
       });
     }
-    imagesHtml += microscopeImages.map(function(img, index) {
-      return imageBlock(img.src, img.label + ': ' + c.nome, img.label, 'image-qr-extra-' + index);
+    imagesHtml += microscopeImages.map(function(img) {
+      return imageBlock(img.src, img.label + ': ' + c.nome, img.label);
     }).join('');
 
     var tipologiaHtml = '<div class="metadata-item"><span class="metadata-label">Tipologia</span>' +
@@ -221,7 +220,6 @@ function initMobileMenuDetail() {
       '</div></section>' : '');
 
     generateQR(c.id);
-    generateImageQRs();
 
     // Attach hover/focus listeners
     document.querySelectorAll('.sand-type-item').forEach(function(el) {
@@ -263,29 +261,6 @@ function initMobileMenuDetail() {
       img.height = 180;
       qrContainer.appendChild(img);
     }
-  }
-
-  function generateImageQRs() {
-    document.querySelectorAll('.image-qr-container').forEach(function(container) {
-      var imageSrc = container.dataset.imageSrc;
-      if (!imageSrc) return;
-      var imageUrl = new URL(basePath + imageSrc, window.location.href).href;
-
-      if (typeof QRCode !== 'undefined') {
-        new QRCode(container, {
-          text: imageUrl, width: 120, height: 120,
-          colorDark: '#2A2520', colorLight: '#FFFFFF',
-          correctLevel: QRCode.CorrectLevel.M
-        });
-      } else {
-        var img = document.createElement('img');
-        img.src = 'https://api.qrserver.com/v1/create-qr-code/?size=120x120&data=' + encodeURIComponent(imageUrl);
-        img.alt = 'QR Code per immagine';
-        img.width = 120;
-        img.height = 120;
-        container.appendChild(img);
-      }
-    });
   }
 
   initMobileMenuDetail();
