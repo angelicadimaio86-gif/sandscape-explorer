@@ -1112,13 +1112,13 @@ h1 em, h2 em, h3 em {
 .curiosita-inner {
   max-width: 980px;
   margin: 0 auto;
-  background: linear-gradient(135deg, #fff8ef, #f2dfc4);
-  border: 1px solid rgba(120, 88, 55, 0.18);
+  background: linear-gradient(135deg, #FFF9F2 0%, #F2DFC4 100%);
+  border: 1px solid var(--color-border);
   border-radius: 28px;
   padding: 56px 48px;
   text-align: center;
-  color: #2d2118;
-  box-shadow: 0 18px 45px rgba(64, 42, 24, 0.10);
+  color: var(--color-text);
+  box-shadow: var(--shadow-lg);
   position: relative;
   overflow: hidden;
 }
@@ -1142,7 +1142,7 @@ h1 em, h2 em, h3 em {
   justify-content: center;
   width: 44px;
   height: 44px;
-  color: #b96a3c;
+  color: var(--color-terracotta);
   margin-bottom: 14px;
 }
 
@@ -1158,7 +1158,7 @@ h1 em, h2 em, h3 em {
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.28em;
-  color: #b96a3c;
+  color: var(--color-terracotta);
   margin-bottom: 16px;
 }
 
@@ -1167,7 +1167,7 @@ h1 em, h2 em, h3 em {
   font-size: 36px;
   line-height: 1.1;
   font-weight: 600;
-  color: #2d2118;
+  color: var(--color-text);
   margin: 0 0 18px;
 }
 
@@ -1175,7 +1175,7 @@ h1 em, h2 em, h3 em {
   font-family: 'Inter', sans-serif;
   font-size: 19px;
   line-height: 1.75;
-  color: #6f6256;
+  color: var(--color-text-secondary);
   max-width: 760px;
   margin: 0 auto;
 }
