@@ -1,34 +1,21 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useEffect } from "react";
+import { HomePage } from "@/pages/HomePage";
 
 export const Route = createFileRoute("/")({
-  component: Index,
+  component: HomePage,
   head: () => ({
     meta: [
-      { title: "Museo delle Sabbie" },
-      { name: "description", content: "Sand Studio — Museo delle Sabbie" },
+      { title: "Museo Digitale delle Sabbie del Mondo" },
+      {
+        name: "description",
+        content:
+          "Una collezione di 856 campioni di sabbia da tutto il mondo, organizzati per paese, continente e tipologia.",
+      },
+      { property: "og:title", content: "Museo Digitale delle Sabbie del Mondo" },
+      {
+        property: "og:description",
+        content: "Esplora la collezione: galleria, mappa interattiva, schede dettagliate.",
+      },
     ],
   }),
 });
-
-function Index() {
-  useEffect(() => {
-    window.location.replace("/museo/index.html");
-  }, []);
-
-  return (
-    <div
-      style={{
-        display: "flex",
-        minHeight: "100vh",
-        alignItems: "center",
-        justifyContent: "center",
-        backgroundColor: "#FAF6F1",
-        fontFamily: "Inter, sans-serif",
-        color: "#5a4a32",
-      }}
-    >
-      <p>Reindirizzamento al Museo delle Sabbie…</p>
-    </div>
-  );
-}
