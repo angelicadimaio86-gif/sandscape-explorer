@@ -675,6 +675,11 @@ h1 em, h2 em, h3 em {
 .multi-select {
   position: relative;
   width: 100%;
+  z-index: 1;
+}
+.multi-select:focus-within,
+.multi-select:has(.multi-select-btn[aria-expanded="true"]) {
+  z-index: 400;
 }
 .multi-select-btn {
   width: 100%;
@@ -725,7 +730,7 @@ h1 em, h2 em, h3 em {
   top: calc(100% + 6px);
   left: 0;
   right: 0;
-  z-index: 50;
+  z-index: 400;
   max-height: 280px;
   overflow-y: auto;
   background: var(--color-bg-card);
@@ -733,6 +738,7 @@ h1 em, h2 em, h3 em {
   border-radius: 10px;
   box-shadow: var(--shadow-lg);
   padding: 6px;
+  max-width: calc(100vw - 32px);
 }
 .multi-select-panel[hidden] { display: none; }
 
