@@ -1127,27 +1127,31 @@ h1 em, h2 em, h3 em {
   align-items: center;
   height: 28px;
   padding: 0 12px;
-  background: #f3e4c5;
-  color: #6e5738;
+  background: rgba(255, 255, 255, 0.55);
+  color: #5b4a36;
+  border: 1px solid rgba(120, 95, 65, 0.18);
+  backdrop-filter: blur(2px);
   border-radius: 999px;
   font-family: 'Inter', sans-serif;
-  font-size: 12.5px;
-  font-weight: 600;
-  letter-spacing: 0.01em;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
   white-space: nowrap;
   line-height: 1;
 }
 
 /* Continent — terracotta */
 .card-tag.continent {
-  background: #f7e7de;
-  color: #b75c38;
+  background: rgba(183, 92, 56, 0.08);
+  color: #8a4426;
+  border: 1px solid rgba(183, 92, 56, 0.22);
 }
 
 /* Country — sand */
 .card-tag:not(.continent):not(.type) {
-  background: #f3e4c5;
+  background: rgba(196, 164, 110, 0.12);
   color: #6e5738;
+  border: 1px solid rgba(150, 120, 75, 0.22);
 }
 
 /* Sand type — overrides inline colors set by JS for known categories */
@@ -1158,7 +1162,10 @@ h1 em, h2 em, h3 em {
   height: 28px;
   padding: 0 12px;
   border-radius: 999px;
-  font-weight: 600;
+  font-weight: 500;
+  background: rgba(245, 240, 232, 0.85) !important;
+  color: #4a3f30 !important;
+  border: 1px solid rgba(120, 95, 65, 0.22);
   cursor: pointer;
   transition: filter var(--duration-fast) var(--ease-out);
 }
