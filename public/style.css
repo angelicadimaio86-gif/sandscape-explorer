@@ -610,6 +610,11 @@ h1 em, h2 em, h3 em {
   padding: 1.5rem;
   box-shadow: var(--shadow-sm);
   border: 1px solid var(--color-border-light);
+  transition: padding-bottom var(--duration-normal) var(--ease-out);
+}
+
+.filters-bar:has(.multi-select-btn[aria-expanded="true"]) {
+  padding-bottom: calc(1.5rem + 300px);
 }
 
 .filters-row {
@@ -730,7 +735,7 @@ h1 em, h2 em, h3 em {
   top: calc(100% + 6px);
   left: 0;
   right: 0;
-  z-index: 400;
+  z-index: 900;
   max-height: 280px;
   overflow-y: auto;
   background: var(--color-bg-card);
@@ -1988,6 +1993,9 @@ h1 em, h2 em, h3 em {
   .filters-bar {
     padding: 16px;
     margin-top: 16px;
+  }
+  .filters-bar:has(.multi-select-btn[aria-expanded="true"]) {
+    padding-bottom: calc(16px + 300px);
   }
   .filter-group label {
     font-size: 0.7rem;
