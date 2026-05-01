@@ -7,6 +7,20 @@
   <meta name="description" content="Scheda dettagliata del campione di sabbia con immagini, analisi al microscopio e dati geografici.">
   <link rel="stylesheet" href="../style.css">
   <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js" defer></script>
+  <script>
+    (function(){
+      try {
+        var m = localStorage.getItem('museo-theme-mode') || 'auto';
+        if (!['auto','light','dark'].includes(m)) m = 'auto';
+        var html = document.documentElement;
+        html.setAttribute('data-theme-mode', m);
+        var resolved = m === 'auto'
+          ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
+          : m;
+        html.setAttribute('data-theme', resolved);
+      } catch(e){}
+    })();
+  </script>
 </head>
 <body>
 

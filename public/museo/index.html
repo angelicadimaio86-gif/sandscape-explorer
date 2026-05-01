@@ -11,6 +11,20 @@
   <meta property="og:type" content="website">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <link rel="stylesheet" href="../style.css">
+  <script>
+    (function(){
+      try {
+        var m = localStorage.getItem('museo-theme-mode') || 'auto';
+        if (!['auto','light','dark'].includes(m)) m = 'auto';
+        var html = document.documentElement;
+        html.setAttribute('data-theme-mode', m);
+        var resolved = m === 'auto'
+          ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
+          : m;
+        html.setAttribute('data-theme', resolved);
+      } catch(e){}
+    })();
+  </script>
 </head>
 <body>
 
