@@ -192,10 +192,15 @@ h1 em, h2 em, h3 em {
 }
 
 .header-logo-center {
-  position: relative;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
   text-decoration: none;
   z-index: 1;
-  margin-left: 0.5rem;
+  pointer-events: auto;
+  max-width: calc(100% - 220px);
+  text-align: center;
 }
 
 .header-logo-text {
