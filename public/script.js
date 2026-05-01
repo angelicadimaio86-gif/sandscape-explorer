@@ -775,3 +775,58 @@ function initMobileMenu() {
 
   statEls.forEach(function (el) { observer.observe(el); });
 })();
+
+/* --- Theme Toggle (auto / light / dark) --- */
+(function() {
+  var STORAGE_KEY = 'museo-theme-mode';
+  var ORDER = ['auto', 'light', 'dark'];
+  var LABELS = { auto: 'Tema: predefinito', light: 'Tema: chiaro', dark: 'Tema: scuro' };
+  var html = document.documentElement;
+  var mql = window.matchMedia('(prefers-color-scheme: dark)');
+
+  function getMode() {
+    var m = localStorage.getItem(STORAGE_KEY) || 'auto';
+    return ORDER.indexOf(m) >= 0 ? m : 'auto';
+  }
+  function applyMode(mode, animate) {
+    if (animate) {
+      html.classList.add('theme-anim');
+      setTimeout(function(){ html.classList.remove('theme-anim'); }, 600);
+    }
+    html.setAttribute('data-theme-mode', mode);
+    var resolved = mode === 'auto' ? (mql.matches ? 'dark' : 'light') : mode;
+    html.setAttribute('data-theme', resolved);
+    var lbl = document.getElementById('theme-toggle-label');
+    if (lbl) lbl.textContent = LABELS[mode];
+    document.querySelectorAll('.theme-toggle').forEach(function(btn){
+      btn.setAttribute('aria-label', LABELS[mode]);
+      btn.title = LABELS[mode];
+    });
+  }
+  function cycle() {
+    var current = getMode();
+    var next = ORDER[(ORDER.indexOf(current) + 1) % ORDER.length];
+    localStorage.setItem(STORAGE_KEY, next);
+    applyMode(next, true);
+  }
+
+  applyMode(getMode(), false);
+  mql.addEventListener('change', function(){
+    if (getMode() === 'auto') applyMode('auto', true);
+  });
+
+  function bind() {
+    document.querySelectorAll('.theme-toggle').forEach(function(btn){
+      if (btn.dataset.themeBound === '1') return;
+      btn.dataset.themeBound = '1';
+      btn.addEventListener('click', function(e){
+        e.preventDefault();
+        e.stopPropagation();
+        cycle();
+      });
+    });
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', bind);
+  } else { bind(); }
+})();
