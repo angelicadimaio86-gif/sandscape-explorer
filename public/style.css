@@ -344,6 +344,15 @@ h1 em, h2 em, h3 em {
   pointer-events: none;
 }
 
+/* Nasconde eventuali controlli nativi/poster di play su mobile */
+.hero-video::-webkit-media-controls,
+.hero-video::-webkit-media-controls-start-playback-button,
+.hero-video::-webkit-media-controls-overlay-play-button,
+.hero-video::-webkit-media-controls-panel {
+  display: none !important;
+  -webkit-appearance: none;
+}
+
 .hero-video-overlay {
   position: absolute;
   inset: 0;
