@@ -139,6 +139,64 @@ function initMobileMenu() {
   }
 })();
 
+/* --- Hero video: forza autoplay in loop su mobile/tablet/desktop --- */
+(function() {
+  function initHeroVideo() {
+    var v = document.querySelector('.hero-video');
+    if (!v) return;
+    // Forza attributi richiesti per autoplay su iOS/Android
+    v.muted = true;
+    v.defaultMuted = true;
+    v.loop = true;
+    v.playsInline = true;
+    v.setAttribute('muted', '');
+    v.setAttribute('playsinline', '');
+    v.setAttribute('webkit-playsinline', '');
+    v.removeAttribute('controls');
+    v.controls = false;
+
+    var tryPlay = function() {
+      var p = v.play();
+      if (p && typeof p.catch === 'function') {
+        p.catch(function() { /* riproveremo al primo gesto */ });
+      }
+    };
+    tryPlay();
+
+    // Riprova quando il video è pronto
+    v.addEventListener('loadedmetadata', tryPlay);
+    v.addEventListener('canplay', tryPlay);
+    // Se per qualche motivo si ferma, riavvia
+    v.addEventListener('pause', function() {
+      // ignora pause causate da fine documento/visibility
+      if (!document.hidden) setTimeout(tryPlay, 50);
+    });
+    v.addEventListener('ended', tryPlay);
+
+    // Fallback: al primo gesto utente, fai partire il video
+    var onFirstGesture = function() {
+      tryPlay();
+      ['touchstart','click','scroll','keydown'].forEach(function(ev) {
+        window.removeEventListener(ev, onFirstGesture, true);
+      });
+    };
+    ['touchstart','click','scroll','keydown'].forEach(function(ev) {
+      window.addEventListener(ev, onFirstGesture, { capture: true, passive: true });
+    });
+
+    // Riavvia quando la tab torna visibile
+    document.addEventListener('visibilitychange', function() {
+      if (!document.hidden) tryPlay();
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initHeroVideo);
+  } else {
+    initHeroVideo();
+  }
+})();
+
 /* --- Curiosità del giorno --- */
 (function() {
   var curiosita = [
