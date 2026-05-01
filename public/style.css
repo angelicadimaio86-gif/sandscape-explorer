@@ -1836,18 +1836,21 @@ h1 em, h2 em, h3 em {
     flex-shrink: 0;
   }
   .header-logo-center {
-    position: static;
-    transform: none;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
     display: flex;
     align-items: center;
-    min-width: 0;
-    flex: 1;
-    margin-left: 6px;
+    justify-content: center;
+    margin: 0;
+    max-width: calc(100vw - 110px);
+    text-align: center;
   }
   .header-logo-text {
     font-size: 12px;
     line-height: 1.2;
-    max-width: calc(100vw - 100px);
+    max-width: 100%;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
