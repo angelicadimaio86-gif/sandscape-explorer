@@ -2480,3 +2480,166 @@ h1 em, h2 em, h3 em {
   clip: rect(0, 0, 0, 0);
   border: 0;
 }
+
+/* ============================================
+   THEME TOGGLE (3 stati: auto / light / dark)
+   ============================================ */
+.theme-toggle {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  width: 38px;
+  height: 38px;
+  padding: 0;
+  margin-left: 0.75rem;
+  border-radius: 999px;
+  border: 1px solid var(--color-border-light);
+  background: linear-gradient(135deg, var(--color-bg-elevated), var(--color-bg-warm));
+  color: var(--color-earth-dark);
+  cursor: pointer;
+  overflow: hidden;
+  transition: transform var(--duration-fast) var(--ease-out),
+              box-shadow var(--duration-fast) var(--ease-out),
+              border-color var(--duration-fast) var(--ease-out),
+              background var(--duration-normal) var(--ease-out);
+  box-shadow: var(--shadow-xs);
+}
+.theme-toggle:hover {
+  transform: translateY(-1px);
+  border-color: var(--color-terracotta);
+  box-shadow: var(--shadow-sm);
+  color: var(--color-terracotta);
+}
+.theme-toggle:active { transform: translateY(0) scale(.95); }
+.theme-toggle:focus-visible {
+  outline: 2px solid var(--color-terracotta);
+  outline-offset: 2px;
+}
+.theme-toggle .theme-toggle-icon {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transform: rotate(-90deg) scale(.6);
+  transition: opacity .35s var(--ease-out), transform .45s var(--ease-out);
+  pointer-events: none;
+}
+.theme-toggle .theme-toggle-icon svg { width: 18px; height: 18px; }
+
+/* Active icon depends on data-theme-mode on <html> */
+html[data-theme-mode="auto"] .theme-toggle .theme-toggle-icon[data-theme-icon="auto"],
+html[data-theme-mode="light"] .theme-toggle .theme-toggle-icon[data-theme-icon="light"],
+html[data-theme-mode="dark"]  .theme-toggle .theme-toggle-icon[data-theme-icon="dark"] {
+  opacity: 1;
+  transform: rotate(0) scale(1);
+}
+
+/* Mobile variant: full-width row with label */
+.theme-toggle-mobile {
+  position: relative;
+  width: 100%;
+  height: auto;
+  margin: 1.25rem 0 0;
+  padding: 0.85rem 1rem;
+  justify-content: flex-start;
+  border-radius: var(--radius-md);
+  gap: 0.85rem;
+  font-family: 'Playfair Display', serif;
+  font-size: 1rem;
+}
+.theme-toggle-mobile .theme-toggle-icon {
+  position: relative;
+  inset: auto;
+  width: 22px;
+  height: 22px;
+  flex: 0 0 22px;
+  display: none;
+}
+.theme-toggle-mobile .theme-toggle-icon svg { width: 22px; height: 22px; }
+html[data-theme-mode="auto"]  .theme-toggle-mobile .theme-toggle-icon[data-theme-icon="auto"],
+html[data-theme-mode="light"] .theme-toggle-mobile .theme-toggle-icon[data-theme-icon="light"],
+html[data-theme-mode="dark"]  .theme-toggle-mobile .theme-toggle-icon[data-theme-icon="dark"] {
+  display: inline-flex;
+  opacity: 1;
+  transform: none;
+}
+.theme-toggle-label {
+  flex: 1;
+  text-align: left;
+  letter-spacing: 0.02em;
+}
+
+/* Hide desktop toggle on mobile (it lives inside header-nav which is already hidden) */
+@media (max-width: 768px) {
+  .header-nav .theme-toggle { display: none; }
+}
+
+/* ============================================
+   DARK THEME OVERRIDES
+   ============================================ */
+html[data-theme="dark"] {
+  --color-sand-lighter: #2A211A;
+  --color-sand-light: #3A2E22;
+  --color-bg: #1A130D;
+  --color-bg-warm: #221912;
+  --color-bg-card: #2A2018;
+  --color-bg-elevated: #2F2419;
+  --color-text: #F2E7D6;
+  --color-text-secondary: #C9B89C;
+  --color-text-muted: #8A7A65;
+  --color-text-inverse: #1A130D;
+  --color-border: #4A3A28;
+  --color-border-light: #3A2D1F;
+  --color-divider: #3A2D1F;
+  --color-earth-dark: #E6D6BC;
+  --color-earth-deeper: #F2E7D6;
+  --color-earth: #C9B89C;
+  --shadow-xs: 0 1px 2px rgba(0,0,0,0.35);
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.45), 0 1px 2px rgba(0,0,0,0.3);
+  --shadow-md: 0 6px 18px rgba(0,0,0,0.5), 0 2px 4px rgba(0,0,0,0.35);
+  --shadow-lg: 0 14px 36px rgba(0,0,0,0.55), 0 4px 10px rgba(0,0,0,0.35);
+  --shadow-xl: 0 24px 60px rgba(0,0,0,0.6), 0 10px 20px rgba(0,0,0,0.4);
+  color-scheme: dark;
+}
+html[data-theme="dark"] body { background: var(--color-bg); color: var(--color-text); }
+html[data-theme="dark"] .site-header {
+  background: rgba(26, 19, 13, 0.78);
+  backdrop-filter: blur(14px) saturate(140%);
+  border-bottom: 1px solid var(--color-border-light);
+}
+html[data-theme="dark"] .header-logo-text { color: var(--color-text); }
+html[data-theme="dark"] .mobile-nav { background: var(--color-bg-elevated); }
+html[data-theme="dark"] .theme-toggle {
+  background: linear-gradient(135deg, #2F2419, #221912);
+  color: var(--color-sand);
+  border-color: var(--color-border);
+}
+html[data-theme="dark"] input,
+html[data-theme="dark"] select,
+html[data-theme="dark"] textarea {
+  background: var(--color-bg-card);
+  color: var(--color-text);
+  border-color: var(--color-border);
+}
+html[data-theme="dark"] .multi-select-btn,
+html[data-theme="dark"] .multi-select-panel {
+  background: var(--color-bg-card);
+  color: var(--color-text);
+  border-color: var(--color-border);
+}
+/* Smooth color transitions when switching theme */
+html.theme-anim,
+html.theme-anim body,
+html.theme-anim .site-header,
+html.theme-anim .mobile-nav,
+html.theme-anim .multi-select-btn,
+html.theme-anim .multi-select-panel,
+html.theme-anim .theme-toggle {
+  transition: background-color .45s var(--ease-out),
+              color .45s var(--ease-out),
+              border-color .45s var(--ease-out) !important;
+}
